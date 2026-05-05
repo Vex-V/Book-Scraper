@@ -1,0 +1,30 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Airflow
+airflow_home/
+reddit_pipeline/airflow.db
+reddit_pipeline/airflow.db-shm
+reddit_pipeline/airflow.db-wal
+reddit_pipeline/logs/
+reddit_pipeline/simple_auth_manager_passwords.json.generated
+
+# Exports
+*.json
+*.csv
+!reddit_pipeline/docker-compose.yml
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
