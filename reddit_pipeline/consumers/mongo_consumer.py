@@ -45,10 +45,14 @@ def _handle_user(db, msg: dict) -> None:
     if is_seen("users", username):
         log.debug("skip duplicate user %s", username)
         return
-    doc = {**msg, "_id": username}
-    db.users.insert_one(doc)
+    # Stub may already exist (inserted by scrape_comments task) — update in place
+    db.users.update_one(
+        {"_id": username},
+        {"$set": {**msg, "scraped": True}},
+        upsert=True,
+    )
     mark_seen("users", username)
-    log.info("inserted user %s", username)
+    log.info("updated user %s", username)
 
 
 def _ensure_indexes(db) -> None:
@@ -57,6 +61,7 @@ def _ensure_indexes(db) -> None:
     db.posts.create_index("comments_scraped")
     db.posts.create_index("scraped_at")
     db.users.create_index("username", unique=True)
+    db.users.create_index("scraped")
     db.users.create_index("total_count")
 
 
