@@ -32,9 +32,12 @@ def scrape_posts() -> None:
 
     state = db.scrape_state.find_one({"_id": "books_after"})
     after = state["last_id"] if state else None
-    log.info("Task 1: fetching posts after=%s", after)
+    if after:
+        log.info("Task 1: fetching posts after=%s (https://www.reddit.com/r/books/comments/%s)", after, after)
+    else:
+        log.info("Task 1: fetching posts from the top (no cursor)")
 
-    home = rs.get_home(subreddit="books", after=after)
+    home = rs.get_home(subreddit="books", sort="new", after=after)
     if home is None or not home.Posts:
         log.warning("get_home returned no posts — resetting after cursor")
         db.scrape_state.delete_one({"_id": "books_after"})
@@ -66,12 +69,17 @@ def scrape_posts() -> None:
 
     producer.flush()
 
-    db.scrape_state.update_one(
-        {"_id": "books_after"},
-        {"$set": {"last_id": home.LastID}},
-        upsert=True,
-    )
-    log.info("Task 1: published %d new posts, cursor advanced to %s", published, home.LastID)
+    if published == 0:
+        # All posts in this page already seen — end of feed, reset cursor
+        db.scrape_state.delete_one({"_id": "books_after"})
+        log.info("Task 1: no new posts in this page, cursor reset — next run starts from newest")
+    else:
+        db.scrape_state.update_one(
+            {"_id": "books_after"},
+            {"$set": {"last_id": home.LastID}},
+            upsert=True,
+        )
+        log.info("Task 1: published %d new posts, cursor advanced to %s", published, home.LastID)
 
 
 # ---------------------------------------------------------------------------

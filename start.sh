@@ -13,9 +13,9 @@ cd "$PROJECT_ROOT"
 
 # 2. Wait for Redis
 echo "Waiting for Redis..."
-until docker exec reddit_pipeline-redis-1 redis-cli ping 2>/dev/null | grep -q PONG; do
-    sleep 1
-done
+#until docker exec reddit_pipeline-redis-1 redis-cli ping 2>/dev/null | grep -q PONG; do
+ #   sleep 1
+#done
 
 # 3. Clear Redis seen sets
 docker exec reddit_pipeline-redis-1 redis-cli DEL seen:posts seen:comments seen:users
@@ -46,10 +46,12 @@ tmux send-keys -t pipeline:0.0 \
 tmux send-keys -t pipeline:0.2 \
     "source $VENV && export AIRFLOW_HOME=$AIRFLOW_HOME && airflow api-server" Enter
 
+sleep 5
 # MongoDB consumer (top-right)
 tmux send-keys -t pipeline:0.1 \
     "source $VENV && python $PROJECT_ROOT/reddit_pipeline/consumers/mongo_consumer.py" Enter
 
+sleep 5
 # Elasticsearch consumer (bottom-right)
 tmux send-keys -t pipeline:0.3 \
     "source $VENV && python $PROJECT_ROOT/reddit_pipeline/consumers/elasticsearch_consumer.py" Enter
