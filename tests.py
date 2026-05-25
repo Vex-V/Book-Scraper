@@ -8,18 +8,16 @@ rs.init(user_agent="MyBot/1.0")
 db = get_db()
 
 # Subreddit posts after 1sz3cj2
-posts = rs.get_home("books", sort="top",time="month")
+posts = rs.get_home("fantasy", sort="top", time="year", after="t3_1nbq629")
 if posts is None or not posts.Posts:
     print("No posts returned — cursor may be at end of feed")
 else:
     post_ids = [p.PostID for p in posts.Posts if p.PostID]
-    existing = {doc["post_id"] for doc in db.posts.find({"post_id": {"$in": post_ids}}, {"post_id": 1})}
+
 
     print(f"Got {len(posts.Posts)} posts (FirstID={posts.FirstID}, LastID={posts.LastID})")
-    print(f"Already in MongoDB: {len(existing)}/{len(post_ids)}")
-    for post in posts.Posts:
-        in_db = "✓ in db" if post.PostID in existing else "✗ new"
-        print(f"  [{in_db}] {post.PostID}  {post.Title}")
+
+   
 print("\n")
 print("#####################")
 

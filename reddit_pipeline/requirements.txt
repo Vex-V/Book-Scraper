@@ -1,5 +1,4 @@
 redscrapslib==0.1.4
-kafka-python-ng==2.2.3
 pymongo==4.7.3
 redis==5.0.7
 elasticsearch==8.13.2
