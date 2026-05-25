@@ -1,0 +1,20 @@
+{
+  "_id": "1abc123",
+  "post_id": "1abc123",
+  "title": "The Name of the Wind - Discussion Thread",
+  "author": "some_redditor",
+  "self_text": "Body text of the post...",
+  "link": "https://www.reddit.com/r/Fantasy/comments/1abc123/",
+  "subreddit": "Fantasy",
+  "scraped_at": "2026-05-25T10:00:00+00:00",
+  "comments_scraped": true,
+  "comments": [
+    {
+      "comment_id": "abc1",
+      "author": "another_user",
+      "parent_id": "t3_1abc123",
+      "body": "Great book!",
+      "scraped_at": "2026-05-25T10:05:00+00:00"
+    }
+  ]
+}

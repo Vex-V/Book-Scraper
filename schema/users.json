@@ -1,0 +1,22 @@
+{
+  "_id": "some_redditor",
+  "username": "some_redditor",
+  "first_id": "abc1",
+  "last_id": "xyz9",
+  "total_count": 142,
+  "scraped": true,
+  "scraped_at": "2026-05-25T10:10:00+00:00",
+  "comments": [
+    {
+      "comment_id": "abc1",
+      "subreddit": "Fantasy",
+      "body": "Great book!",
+      "parent_id": "t3_1abc123",
+      "post_id": "1abc123",
+      "post_title": "The Name of the Wind - Discussion Thread",
+      "link": "https://www.reddit.com/r/Fantasy/comments/1abc123/",
+      "upvotes": 42,
+      "created_utc": "2024-03-15T08:30:00+00:00"
+    }
+  ]
+}
